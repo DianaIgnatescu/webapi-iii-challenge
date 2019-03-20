@@ -1,6 +1,6 @@
 const upperCaseNameMiddleware = (req, res, next) => {
   try {
-    req.body.name = req.body.name.toUppercase();
+    req.body.name = req.body.name.toUpperCase();
     next();
   } catch (error) {
     res.status(400).json({ errorMessage: 'Please provide a name for the user. '})
