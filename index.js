@@ -2,7 +2,7 @@
 const express = require('express');
 
 const postsRoutes = require('./routes/posts');
-const usersRoutes = require('./routes/posts');
+const usersRoutes = require('./routes/users');
 
 const server = express();
 
