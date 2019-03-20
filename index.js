@@ -3,6 +3,7 @@ const express = require('express');
 
 const postsRoutes = require('./routes/posts');
 const usersRoutes = require('./routes/users');
+const { upperCaseNameMiddleware } = require('./middleware');
 
 const server = express();
 

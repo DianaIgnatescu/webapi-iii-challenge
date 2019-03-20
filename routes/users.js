@@ -1,6 +1,7 @@
 const express = require('express');
 
 const userDb = require('../data/helpers/userDb');
+const { upperCaseNameMiddleware } = require('../middleware');
 
 const router = express.Router();
 
