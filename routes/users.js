@@ -30,50 +30,35 @@ router.get('/:user_id', (req, res) => {
     });
 });
 
-// router.get('/:user_id/posts', (req, res) => {
-//   const { user_id } = req.params;
-//   userDb.getUserPosts(user_id)
-//       .then((posts) => {
-//         if (!posts) {
-//           res.status(404).json({ message: 'The user with the specified ID does not have any posts' });
-//         } else {
-//           res.status(200).json(posts)
-//         }
-//       })
-//       .catch((error) => {
-//         res.status(500).json({ error: 'The user posts could not be retrieved.' });
-//       });
-// });
-
 router.post('/', upperCaseNameMiddleware, (req, res) => {
   const { name } = req.body;
   if (!name) {
     res.status(400).json({ errorMessage: 'Please provide a name for the user.' });
   }
   userDb.insert({ name })
-      .then((data) => {
-        res.status(201).json({
-          name,
-        });
-      })
-      .catch((error) => {
-        res.status(500).json({ error: 'There was an error while saving the user to the database.' });
+    .then((data) => {
+      res.status(201).json({
+        name,
       });
+    })
+    .catch((error) => {
+      res.status(500).json({ error: 'There was an error while saving the user to the database.' });
+    });
 });
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
   userDb.remove(id)
-      .then((data) => {
-        if (!data) {
-          res.status(404).json({ message: 'The user with the specified ID does not exist.' });
-        } else {
-          res.status(200).json({ message: `The user with the id ${id} has now been removed from the database.` });
-        }
-      })
-      .catch((error) => {
-        res.status(500).json({ errorMessage: 'The user could not be removed.' });
-      });
+    .then((data) => {
+      if (!data) {
+        res.status(404).json({ message: 'The user with the specified ID does not exist.' });
+      } else {
+        res.status(200).json({ message: `The user with the id ${id} has now been removed from the database.` });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({ errorMessage: 'The user could not be removed.' });
+    });
 });
 
 router.put('/:id', upperCaseNameMiddleware, (req, res) => {
@@ -84,15 +69,15 @@ router.put('/:id', upperCaseNameMiddleware, (req, res) => {
     res.status(400).json({ errorMessage: 'Please provide a name for the user.' });
   }
   userDb.update(id, user)
-      .then((data) => {
-        if (!data) {
-          res.status(404).json({ message: 'The user with the specified id does not exist.' });
-        } else {
-          res.status(200).json({ user: {id, ...user }});
-        }
-      })
-      .catch((error) => {
-        res.status(500).json({ error: 'The post information could not be modified.' });
+    .then((data) => {
+      if (!data) {
+        res.status(404).json({ message: 'The user with the specified id does not exist.' });
+      } else {
+        res.status(200).json({ user: {id, ...user }});
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({ error: 'The post information could not be modified.' });
     });
 });
 

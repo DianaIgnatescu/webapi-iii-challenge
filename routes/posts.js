@@ -8,24 +8,24 @@ const router = express.Router();
 router.get('/', (req, res) => {
   if (req.query && req.query.user_id) {
     userDb.getUserPosts(req.query.user_id)
-        .then((posts) => {
-          if (!posts) {
-            res.status(404).json({ message: 'The user with the specified ID does not have any posts' });
-          } else {
-            res.status(200).json(posts)
-          }
-        })
-        .catch((error) => {
-          res.status(500).json({ error: 'The user posts could not be retrieved.' });
-        });
+      .then((posts) => {
+        if (!posts) {
+          res.status(404).json({ message: 'The user with the specified ID does not have any posts' });
+        } else {
+          res.status(200).json(posts)
+        }
+      })
+      .catch((error) => {
+        res.status(500).json({ error: 'The user posts could not be retrieved.' });
+      });
   } else {
     postDb.get()
-        .then((posts) => {
-          res.status(200).json(posts);
-        })
-        .catch((error) => {
-          res.status(500).json({ error: 'The posts could not be retrieved.'});
-        });
+      .then((posts) => {
+        res.status(200).json(posts);
+      })
+      .catch((error) => {
+        res.status(500).json({ error: 'The posts could not be retrieved.'});
+      });
   }
 });
 
@@ -39,9 +39,9 @@ router.get('/:id', (req, res) => {
         res.status(200).json(post);
       }
     })
-      .catch((error) => {
-        res.status(500).json({ error: 'The post information could not be retrieved.'});
-      });
+    .catch((error) => {
+      res.status(500).json({ error: 'The post information could not be retrieved.'});
+    });
 });
 
 router.post('/', (req, res) => {
@@ -69,30 +69,30 @@ router.put('/:id', (req, res) => {
     res.status(400).json({ errorMessage: 'Please provide title and contents for the post.' });
   }
   postDb.update(id, post)
-      .then((data) => {
-        if (!data) {
-          res.status(404).json({ message: 'The post with the specified id does not exist.' });
-        } else {
-          res.status(200).json({ post: { id, ...post} });
-        }
-      })
-      .catch((error) => {
-        res.status(500).json({ error: 'The post information could not be modified.' });
-      });
+    .then((data) => {
+      if (!data) {
+        res.status(404).json({ message: 'The post with the specified id does not exist.' });
+      } else {
+        res.status(200).json({ post: { id, ...post} });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({ error: 'The post information could not be modified.' });
+    });
 });
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
   postDb.remove(id)
-      .then((data) => {
-        if (!data) {
-          res.status(404).json({ message: 'The post with the specified ID does not exist.' });
-        } else {
-          res.status(200).json({ message: `The post with the ID ${id} has now been removed from the database.` });
-        }
-      })
-      .catch((error) => {
-        res.status(500).json({ errorMessage: 'The post could not be removed.' });
+    .then((data) => {
+      if (!data) {
+        res.status(404).json({ message: 'The post with the specified ID does not exist.' });
+      } else {
+        res.status(200).json({ message: `The post with the ID ${id} has now been removed from the database.` });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({ errorMessage: 'The post could not be removed.' });
   });
 });
 
