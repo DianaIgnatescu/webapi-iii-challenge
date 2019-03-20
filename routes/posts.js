@@ -1,16 +1,32 @@
 const express = require('express');
+
 const postDb = require('../data/helpers/postDb');
+const userDb = require('../data/helpers/userDb');
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  postDb.get()
-    .then((posts) => {
-      res.status(200).json(posts);
-    })
-    .catch((error) => {
-      res.status(500).json({ error: 'The posts could not be retrieved.'});
-    });
+  if (req.query && req.query.user_id) {
+    userDb.getUserPosts(req.query.user_id)
+        .then((posts) => {
+          if (!posts) {
+            res.status(404).json({ message: 'The user with the specified ID does not have any posts' });
+          } else {
+            res.status(200).json(posts)
+          }
+        })
+        .catch((error) => {
+          res.status(500).json({ error: 'The user posts could not be retrieved.' });
+        });
+  } else {
+    postDb.get()
+        .then((posts) => {
+          res.status(200).json(posts);
+        })
+        .catch((error) => {
+          res.status(500).json({ error: 'The posts could not be retrieved.'});
+        });
+  }
 });
 
 router.get('/:id', (req, res) => {
