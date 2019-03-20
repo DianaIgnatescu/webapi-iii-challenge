@@ -28,4 +28,21 @@ router.get('/:id', (req, res) => {
       });
 });
 
+router.post('/', (req, res) => {
+  const { text, user_id } = req.body;
+  if (!text || !user_id) {
+    res.status(400).json({ errorMessage: 'Please provide text and user id for the post.'});
+  }
+  postDb.insert({ text, user_id })
+    .then((data) => {
+      res.status(201).json({
+        text,
+        user_id,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({ error: 'There was an error while saving the post to the database.'});
+    });
+});
+
 module.exports = router;
